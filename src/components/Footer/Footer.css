@@ -1,0 +1,21 @@
+.footer-section {
+
+    height: 30vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.footer-text {
+    font-size: 40px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin: 0;
+
+}
+
+.footer-word {
+    display: inline-block;
+}

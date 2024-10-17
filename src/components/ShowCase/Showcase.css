@@ -1,0 +1,25 @@
+.showcase-section {
+    height: 70vh;
+}
+
+.main-heading {
+    font-size: 60px;
+}
+
+.image-section {
+    display: flex;
+    gap: 10px;
+}
+
+.image-container:nth-child(even) {
+    margin-right: auto;
+}
+
+.image-container:nth-child(odd) {
+    margin-left: auto;
+}
+
+.image {
+    width: 700px;
+    height: 650px;
+}
