@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './Showcase.css';
 
 import Image1 from "../../../src/assets/images/show-case/image1.jpg";
@@ -12,33 +12,35 @@ import Image8 from "../../../src/assets/images/show-case/image8.jpg";
 import Image9 from "../../../src/assets/images/show-case/image9.jpg";
 import Image10 from "../../../src/assets/images/show-case/image10.jpg";
 
-import { gsap } from "gsap";
-
-
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
 gsap.registerPlugin(ScrollTrigger);
 
 
 const Showcase = () => {
+    const [images, setImages] = useState([Image1, Image2, Image3, Image4, Image5, Image6, Image7, Image8, Image9, Image10]);
 
-    useEffect(() => {
-        let sections = gsap.utils.toArray(".image-container");
+    const containerRef = useRef(null);
+
+    useGSAP(() => {
+        const container = containerRef.current;
+        const sections = gsap.utils.toArray('.scroll-item'); // Select all items
 
         gsap.to(sections, {
             xPercent: -100 * (sections.length - 1),
-            ease: "none",
+            ease: 'none',
             scrollTrigger: {
-                trigger: ".showcase-section",
-                // pin: true,
-                // scrub: 1,
-                // snap: 1 / (sections.length - 1),
-                // end: "+=1000"
-            }
+                trigger: container,
+                pin: true, // Pin the container during scroll
+                scrub: 1, // Synchronize scroll with animation
+                end: () => `+=${container.offsetWidth}`, // End based on container width
+                start: 'top top', // Start the scroll when top of the container hits top of the viewport
+            },
         });
+    });
 
-    }, [])
 
-    const [images, setImages] = useState([Image1, Image2, Image3, Image4, Image5, Image6, Image7, Image8, Image9, Image10]);
 
     return (
         <div className='showcase-section'>
@@ -47,16 +49,15 @@ const Showcase = () => {
                 dolor sit amet consectetur
             </h1>
 
-            <div className='image-section'>
-                {
-                    images.map((img, index) => (
-                        <div key={index} className='image-container'>
-                            <img className='image' src={img} alt="" />
+            <div className='horizontal-scroll' ref={containerRef}>
+                <div className='scroll-container'>
+                    {images.map((img, index) => (
+                        <div key={index} className='scroll-item'>
+                            <img src={img} alt={`img-${index}`} className='scroll-image' />
                         </div>
-                    ))
-                }
+                    ))}
+                </div>
             </div>
-
         </div>
     )
 }
