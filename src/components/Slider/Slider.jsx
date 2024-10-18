@@ -10,6 +10,11 @@ import Image4 from "../../../src/assets/images/image4.jpg";
 import Image5 from "../../../src/assets/images/image5.jpeg";
 import Image6 from "../../../src/assets/images/image6.jpg";
 import Image7 from "../../../src/assets/images/image7.jpg";
+import { useGSAP } from '@gsap/react';
+
+
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+gsap.registerPlugin(ScrollTrigger);
 
 const Slider = () => {
     const [sliderData, setSliderData] = useState([
@@ -132,6 +137,18 @@ const Slider = () => {
             })
         }
     }, [loadingElement])
+
+    useGSAP(() => {
+        ScrollTrigger.create({
+            trigger: ".slider-section",
+            start: "0",
+            borderBottomLeftRadius: '50% 10%',
+            borderBottomRightRadius: '50% 10%',
+
+        });
+    }, [])
+
+    // INSPO TAKEN FROM https://www.accordion.net.au/, https://guillaumecolombel.fr/
 
     return (
         <div className='slider-section'>

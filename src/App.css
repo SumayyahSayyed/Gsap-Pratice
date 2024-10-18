@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  /* overflow: hidden; */
 }
 
 .App-logo {
@@ -45,9 +46,9 @@
   height: 100px;
 }
 
-.box:nth-of-type(1) {
+/* .box:nth-of-type(1) {
   background-color: yellow;
-}
+} */
 
 
 .box:nth-of-type(2) {

@@ -41,7 +41,6 @@ const Footer = () => {
                     },
                     duration: 1,
                     stagger: 0.1,
-
                 })
             },
             once: true

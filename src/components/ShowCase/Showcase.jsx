@@ -19,28 +19,70 @@ gsap.registerPlugin(ScrollTrigger);
 
 
 const Showcase = () => {
-    const [images, setImages] = useState([Image1, Image2, Image3, Image4, Image5, Image6, Image7, Image8, Image9, Image10]);
+    const [images, setImages] = useState([
+        // Image1,
+        Image2, Image3,
+        // Image6,
+        Image4, Image5,
+        // Image8,
+        Image7, Image9,
+        // Image10
+    ]);
 
     const containerRef = useRef(null);
 
+    // useGSAP(() => {
+    //     const container = containerRef.current;
+    //     const sections = gsap.utils.toArray('.scroll-item');
+
+    //     gsap.to(sections, {
+    //         xPercent: -100 * (sections.length - 1),
+    //         ease: 'none',
+    //         scrollTrigger: {
+    //             trigger: container,
+    //             pin: true, // Pin the container during scroll
+    //             scrub: 1, // Synchronize scroll with animation
+    //             end: () => `+=${container.offsetWidth}`, // End based on container width
+    //             start: 'top top', // Start the scroll when top of the container hits top of the viewport
+    //         },
+    //     })
+    //         ;
+    // });
+
+
     useGSAP(() => {
         const container = containerRef.current;
-        const sections = gsap.utils.toArray('.scroll-item'); // Select all items
+        const sections = gsap.utils.toArray('.scroll-item');
 
-        gsap.to(sections, {
-            xPercent: -100 * (sections.length - 1),
-            ease: 'none',
-            scrollTrigger: {
-                trigger: container,
-                pin: true, // Pin the container during scroll
-                scrub: 1, // Synchronize scroll with animation
-                end: () => `+=${container.offsetWidth}`, // End based on container width
-                start: 'top top', // Start the scroll when top of the container hits top of the viewport
-            },
-        });
+        let skewAnim = gsap.to(sections, {});
+
+        gsap
+            .to(sections, {
+                xPercent: -100 * (sections.length - 1),
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: container,
+                    pin: true, // Pin the container during scroll
+                    scrub: 1, // Synchronize scroll with animation
+                    end: () => `+=${container.offsetWidth}`, // End based on container width
+                    start: 'top top', // Start the scroll when top of the container hits top of the viewport
+                    onUpdate: (self) => {
+                        const skewValue = self.direction === -1 ? '3deg' : '-3deg';
+
+                        skewAnim.kill();
+
+                        skewAnim = gsap.fromTo(sections, {
+                            skewX: skewValue,
+                        }, {
+                            skewX: '0deg',
+                            duration: .5,
+                            ease: 'power1.in',
+                        });
+                    },
+                },
+
+            });
     });
-
-
 
     return (
         <div className='showcase-section'>
@@ -48,6 +90,23 @@ const Showcase = () => {
                 Lorem ipsum <br />
                 dolor sit amet consectetur
             </h1>
+
+            {/* FULL SIZE IMAGES E.G 100vh */}
+            {/* <div className='horizontal-scroll' ref={containerRef}>
+                <div className='scroll-container'>
+                    {images.map((img, index) => (
+                        <div key={index} className='scroll-item'>
+                            <img src={img} alt={`img-${index}`} className='scroll-image' />
+                        </div>
+                    ))}
+                </div>
+            </div> */}
+
+
+            {/* GSAP INSPO STYLED IMAGES SCROLL */}
+            {/* LINK ==> https://upstairz.it/en/ */}
+
+
 
             <div className='horizontal-scroll' ref={containerRef}>
                 <div className='scroll-container'>
