@@ -64,8 +64,9 @@ const Showcase = () => {
                     trigger: container,
                     pin: true, // Pin the container during scroll
                     scrub: 1, // Synchronize scroll with animation
-                    end: () => `+=${container.offsetWidth}`, // End based on container width
-                    start: 'top top', // Start the scroll when top of the container hits top of the viewport
+                    end: () => `+=${container.scrollWidth}`, // Updated end calculation
+                    start: 'top top',
+                    // markers: true
                     onUpdate: (self) => {
                         const skewValue = self.direction === -1 ? '3deg' : '-3deg';
 
@@ -80,8 +81,8 @@ const Showcase = () => {
                         });
                     },
                 },
-
             });
+
     });
 
     return (

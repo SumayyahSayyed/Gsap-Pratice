@@ -11,6 +11,7 @@ import { useGSAP } from "@gsap/react";
 import { useEffect, useState } from 'react';
 import Showcase from './components/ShowCase/Showcase';
 import Extra from './components/Extra/Extra';
+import Scale from './components/Scale/Scale';
 
 gsap.registerPlugin(useGSAP);
 
@@ -43,11 +44,14 @@ function App() {
         <div className='box'></div>
         <div className='box'></div> */}
 
-        <Extra />
+        {/* <Extra /> */}
         <Slider />
-        <Footer />
 
         <Showcase />
+
+        <Scale />
+
+        <Footer />
       </header>
     </div>
     // ) :

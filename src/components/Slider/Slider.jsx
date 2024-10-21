@@ -55,7 +55,7 @@ const Slider = () => {
         },
     ]);
     const [currentImageIndex, setCurrentImageIndex] = useState(Math.floor(sliderData.length / 2));
-    const [sliderSection, setsliderSection] = useState([]);
+    const [sliderSection, setSliderSection] = useState([]);
     const [loadingElement, setLoadingElement] = useState([]);
 
     const handleImageLoad = (index) => {
@@ -76,48 +76,60 @@ const Slider = () => {
 
 
         setLoadingElement(loadingElement);
-        setsliderSection(sliderSectionData);
+        setSliderSection(sliderSectionData);
     }, [])
 
     useEffect(() => {
-
-        if (sliderSection) {
-
+        if (sliderSection.length > 0) {
             sliderSection.forEach((section) => {
-                const image = section.getElementsByTagName('img')[0];
+                const image = section.querySelector('img');
                 const text = section.querySelector(".slider-text");
 
-                const tl = gsap
-                    .timeline({
-                        paused: true
-                    })
-                    .fromTo(image, {
-                        filter: 'grayscale(100%)'
-                    }, { duration: 0.1, filter: 'grayscale(0%)', ease: "ease-in" })
+                const tl = gsap.timeline({ paused: true })
+                    .fromTo(image, { filter: 'grayscale(100%)' }, { duration: 0.1, filter: 'grayscale(0%)', ease: "ease-in" })
                     .fromTo(text, { opacity: 0, x: -20 }, { opacity: 1, duration: 0.1, x: 0 });
 
-
-
-                if (image.className === "slider-image") {
-                    image.addEventListener("mouseenter", function (e) {
-                        tl.play();
+                if (image.classList.contains("slider-image")) {
+                    image.addEventListener("mouseenter", () => {
+                        if (image.classList.contains("slider-image")) {
+                            tl.play();
+                        }
                     });
 
-                    image.addEventListener("mouseleave", function () {
-                        tl.reverse();
+                    image.addEventListener("mouseleave", () => {
+                        if (image.classList.contains("slider-image")) {
+                            tl.reverse();
+                        }
                     });
                 }
-            })
+
+                if (image.classList.contains("in-center-image")) {
+                    gsap.set(image, { filter: 'grayscale(0%)' });
+                }
+            });
+
+            return () => {
+                sliderSection.forEach((section) => {
+                    const image = section.querySelector('img');
+                    image.removeEventListener("mouseenter", () => { });
+                    image.removeEventListener("mouseleave", () => { });
+                });
+            };
         }
-    }, [sliderSection])
+    }, [sliderSection]);
 
     useEffect(() => {
         const mainImage = document.querySelector('.in-center-image');
-        gsap.timeline({
-        })
-            .to(mainImage, { width: '100%', duration: 1, })
-            .to('.slider-image', { width: '70px', duration: 1, delay: -1 });
-    }, [currentImageIndex])
+
+        if (mainImage) {
+            gsap.timeline()
+                .fromTo(mainImage, { width: '70px', scale: 0.9, transformOrigin: 'left' }, { width: '100%', duration: 1, scale: 1, filter: 'grayscale(0%)' })
+                .to('.slider-image', { width: '70px', duration: 1, delay: -1 });
+        }
+
+        const sliderSectionData = document.querySelectorAll(".slider-data-section");
+        setSliderSection(sliderSectionData);
+    }, [currentImageIndex]);
 
 
     useEffect(() => {

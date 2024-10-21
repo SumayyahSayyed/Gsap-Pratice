@@ -5,6 +5,7 @@ import { gsap } from "gsap";
 
 
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from '@gsap/react';
 gsap.registerPlugin(ScrollTrigger);
 
 const Footer = () => {
@@ -23,7 +24,7 @@ const Footer = () => {
 
     }, [])
 
-    useEffect(() => {
+    useGSAP(() => {
         const footerTag = document.querySelector(".footer-text");
 
         if (!footerElement) {
@@ -32,7 +33,8 @@ const Footer = () => {
 
         ScrollTrigger.create({
             trigger: footerTag,
-            start: "0",
+            start: "top 80%",
+            markers: true,
             onEnter: () => {
                 gsap.to('.footer-word', {
                     keyframes: {
@@ -52,7 +54,7 @@ const Footer = () => {
             <p className='footer-text'>
                 {Array.isArray(footerText) &&
                     footerText.map((word, index) => (
-                        <span className='footer-word'>{word === ' ' ? '\u00A0' : word}</span>
+                        <span key={index} className='footer-word'>{word === ' ' ? '\u00A0' : word}</span>
                     ))
                 }
             </p>

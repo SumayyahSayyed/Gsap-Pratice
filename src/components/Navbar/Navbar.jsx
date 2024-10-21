@@ -2,57 +2,61 @@ import React, { useEffect, useState } from 'react'
 import './Navbar.css';
 
 import { gsap } from "gsap";
+import { useGSAP } from '@gsap/react';
 
 
 const Navbar = () => {
-    const [navItem, setNavItem] = useState([]);
     const [isDropDownOpen, setIsDropDownOpen] = useState(false)
 
 
-    navItem.forEach((item) => {
-        const navItemBorder = item.querySelector(".nav-item-border");
-
-        const tl = gsap
-            .timeline({
-                paused: true
-            })
-            .to(navItemBorder, { duration: 0.7, width: "100%", borderColor: "#005DBD", opacity: 1 });
-
-        item.addEventListener("mouseenter", function () {
-            tl.play();
-        });
-
-        item.addEventListener("mouseleave", function () {
-            tl.reverse();
-        });
-    });
-
     const openDropDown = () => {
         setIsDropDownOpen(prev => !prev);
-    }
+    };
 
-    useEffect(() => {
+    useGSAP(() => {
         const dropDown = document.querySelector(".drop-down");
-        const tl = gsap
-            .timeline({
-                paused: true
-            }).
-            to(dropDown, {
-                duration: 1, maxHeight: "700px", opacity: 1,
-            });
+        const tl = gsap.timeline({ paused: true })
+            .fromTo(dropDown,
+                { maxHeight: "0px", y: -50, zIndex: -100, opacity: 0 },
+                { duration: 1, maxHeight: "700px", ease: "bounce.out", zIndex: 100, y: 0, opacity: 1 }
+            );
 
         if (isDropDownOpen) {
             tl.play();
-        }
-        if (!isDropDownOpen) {
+        } else {
             tl.reverse();
         }
+
     }, [isDropDownOpen]);
 
     useEffect(() => {
-        const navElement = document.querySelectorAll(".nav-item");
-        setNavItem(navElement)
-    }, [])
+        const navElements = document.querySelectorAll(".nav-item");
+
+        navElements.forEach((item) => {
+            const navItemBorder = item.querySelector(".nav-item-border");
+
+            const tl = gsap
+                .timeline({
+                    paused: true
+                })
+                .to(navItemBorder, { duration: 0.7, width: "100%", borderColor: "#005DBD", opacity: 1 });
+
+            item.addEventListener("mouseenter", function () {
+                tl.play();
+            });
+
+            item.addEventListener("mouseleave", function () {
+                tl.reverse();
+            });
+        });
+
+        return () => {
+            navElements.forEach((item) => {
+                item.removeEventListener("mouseenter", () => { });
+                item.removeEventListener("mouseleave", () => { });
+            });
+        };
+    }, []);
 
 
     return (
@@ -77,13 +81,10 @@ const Navbar = () => {
                     <span className='nav-item-border'></span>
                 </li>
 
-                {
-                    isDropDownOpen && (
-                        <div className='drop-down'>
-                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Porro sequi quam animi soluta unde sit quibusdam illo ducimus ut. Id animi molestiae optio deleniti numquam aliquid eaque facilis accusantium enim?Lorem ipsum, dolor sit amet consectetur adipisicing elit. Porro sequi quam animi soluta unde sit quibusdam illo ducimus ut. Id animi molestiae optio deleniti numquam aliquid eaque facilis accusantium enim?Lorem ipsum, dolor sit amet consectetur adipisicing elit. Porro sequi quam animi soluta unde sit quibusdam illo ducimus ut. Id animi molestiae optio deleniti numquam aliquid eaque facilis accusantium enim?Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                        </div>
-                    )
-                }
+                <div className={`drop-down ${isDropDownOpen ? "open" : ""}`}>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda unde eius quibusdam repellendus illum blanditiis delectus saepe vitae vero animi, ipsa incidunt quae itaque sunt tenetur, id optio est ducimus!
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero, assumenda illum! Culpa velit vitae ipsa quaerat amet, enim tempore ullam aliquid labore corporis porro voluptates officiis adipisci cupiditate eius possimus?
+                </div>
             </ul>
         </div>
     )

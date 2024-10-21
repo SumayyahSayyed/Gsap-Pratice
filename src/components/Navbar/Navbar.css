@@ -23,6 +23,7 @@
     margin: 0;
 
     position: relative;
+    z-index: 100;
 }
 
 .navbar-section li {
@@ -46,14 +47,18 @@
 .drop-down {
     position: absolute;
     top: 60px;
-    z-index: 100;
 
     background-color: white;
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
     width: 300px;
     padding: 2em;
 
-    /* display: none; */
-    /* max-height: 0px;
+    overflow: hidden;
+    /* max-height: 0;
     opacity: 0; */
 }
+
+/* .drop-down.open {
+    max-height: 700px;
+    opacity: 1;
+} */

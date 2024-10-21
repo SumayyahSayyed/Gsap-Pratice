@@ -1,0 +1,25 @@
+.scale-section{
+    height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.image-view{
+    /* scale: -1;
+    width: 0px;
+    height: 0px;
+    opacity: 0; */
+
+    width: 500px;
+    height: 500px;
+    opacity: 0;
+    scale: 0;
+}
+
+
+.text1, .text2{
+    font-size: 50px;
+}
