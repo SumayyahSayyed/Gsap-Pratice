@@ -44,12 +44,12 @@ function App() {
         <div className='box'></div>
         <div className='box'></div> */}
 
-        {/* <Extra /> */}
         <Slider />
-
-        <Showcase />
+        <Extra />
 
         <Scale />
+        <Showcase />
+
 
         <Footer />
       </header>

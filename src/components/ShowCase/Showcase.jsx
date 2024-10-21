@@ -63,7 +63,7 @@ const Showcase = () => {
                 scrollTrigger: {
                     trigger: container,
                     pin: true, // Pin the container during scroll
-                    scrub: 1, // Synchronize scroll with animation
+                    scrub: 2, // Synchronize scroll with animation
                     end: () => `+=${container.scrollWidth}`, // Updated end calculation
                     start: 'top top',
                     // markers: true
