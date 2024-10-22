@@ -1,0 +1,23 @@
+.section {
+    padding: 100px 0;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+
+    color: black;
+}
+
+.section-one {
+    background-color: lightblue;
+}
+
+.section-two {
+    background-color: lightcoral;
+}
+
+.flip-item {
+    padding: 20px;
+    background-color: white;
+    border: 2px solid black;
+    cursor: pointer;
+}

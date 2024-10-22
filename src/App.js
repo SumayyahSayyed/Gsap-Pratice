@@ -13,6 +13,7 @@ import Loading from './components/Loader/Loading';
 import Showcase from './components/ShowCase/Showcase';
 import FlipAnimation from './components/FlipAnimation/FlipAnimation';
 import Section from './components/Section/Section';
+import FlipScrollComponent from './components/FlipScroll/FlipScrollComponent';
 
 
 
@@ -40,11 +41,13 @@ function App() {
         <FlipAnimation setImage={setImage} />
         <Section image={image} />
 
-        {/* <Slider />
+        {/* <FlipScrollComponent /> */}
+
+        <Slider />
         <Extra />
         <Scale />
         <Showcase />
-        <Footer /> */}
+        <Footer />
       </header>
     </div>
     ) : (<Loading />)

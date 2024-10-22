@@ -38,36 +38,84 @@ const FlipAnimation = ({ setImage }) => {
         parent.appendChild(circle)
     }
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        const circ = document.querySelector(".targets");
-        const sqr = document.querySelector(".flip-section-two-box");
-
-        ScrollTrigger.create({
-            trigger: ".targets",
-            start: 'top 20%',
-            end: 'top 5%',
-            scrub: 2,
-            pin: true,
-            markers: true,
-            onEnter: () => setAnimation(true),
-            onLeave: () => {
-                setImage(circ);
-            }
-        });
-    }, [])
-
-    useGSAP(() => {
-        const circ = document.querySelector(".targets");
-        const sqr = document.querySelector(".flip-section-two-box");
-
-        const initialState = Flip.getState(circ);
-
-        if (animation) {
-            appendChildInSectionTwo(circ, sqr);
+    //     const circ = document.querySelector(".targets");
+    //     const sqr = document.querySelector(".flip-section-two-box");
+    //     const endSection = document.querySelector(".flip-section-two")
 
 
-            Flip.from(initialState, {
+    //     const initialState = Flip.getState(circ);
+
+    //     ScrollTrigger.create({
+    //         trigger: ".targets",
+    //         start: 'top 20%',
+    //         endTrigger: endSection,
+    //         // scrub: 2,
+    //         // pin: true,
+    //         markers: true,
+    //         onEnter: () => {
+    //             Flip.from(initialState, {
+    //                 duration: 1,
+    //                 ease: "power1.inOut",
+    //                 onStart: () => {
+    //                     gsap.fromTo(".targets", {
+    //                         rotate: 360,
+    //                     }, {
+    //                         rotate: 0, duration: 1,
+    //                         ease: "power1.inOut"
+    //                     })
+    //                 }
+    //             });
+    //         },
+    //         onLeave: () => {
+    //             setImage(circ);
+    //         }
+    //     });
+    // }, [])
+
+    // useGSAP(() => {
+    //     const circ = document.querySelector(".targets");
+    //     const sqr = document.querySelector(".flip-section-two-box");
+
+    //     const initialState = Flip.getState(circ);
+
+    //     if (animation) {
+    //         appendChildInSectionTwo(circ, sqr);
+
+
+
+
+    //     }
+
+    // }, [animation]);
+
+    const p1Ref = useRef(null);
+    const p2Ref = useRef(null);
+    const bgRef = useRef(null);
+    let flipCtx = useRef(null);
+
+    const anim = () => {
+        // Revert previous animation context, if exists
+        if (flipCtx.current) flipCtx.current.revert();
+
+        // Access DOM elements using refs
+        const p1 = p1Ref.current;
+        const p2 = p2Ref.current;
+        const bg = bgRef.current;
+
+        // Append bg to p1 and clear styles
+        p1.appendChild(bg);
+        bg.style.cssText = ""; // Clear inline styles
+
+        // Setup GSAP Flip context
+        flipCtx.current = gsap.context(() => {
+            const state = Flip.getState(bg, { props: "transform" });
+
+            // Move bg to p2 and animate Flip
+            p2.appendChild(bg);
+            const flip = Flip.from(state, {
+                absolute: true,
                 duration: 1,
                 ease: "power1.inOut",
                 onStart: () => {
@@ -80,43 +128,65 @@ const FlipAnimation = ({ setImage }) => {
                 }
             });
 
-        }
+            ScrollTrigger.create({
+                trigger: ".flip-section",
+                start: "top 30%",
+                // endTrigger: p2,
+                end: "bottom 80%",
+                scrub: true,
+                animation: flip,
+                markers: true,
+                onUpdate: () => {
+                    gsap.fromTo(".targets", {
+                        rotate: 360,
+                    }, {
+                        rotate: 0, duration: 1,
+                        ease: "power1.inOut"
+                    })
+                }
+            });
+        });
+    };
 
-    }, [animation]);
+    useEffect(() => {
+        anim();
+
+        // Add resize listener to recalculate animations
+        // window.addEventListener("resize", anim);
+
+        // // Clean up animation and event listener on unmount
+        // return () => {
+        //     if (flipCtx.current) flipCtx.current.revert();
+        //     window.removeEventListener("resize", anim);
+        // };
+    }, []);
 
     return (
+        // <div class="container">
+        //     <div class="p p-1 active" ref={p1Ref}>
+        //         <div class="p-bg" ref={bgRef}></div>
+        //         <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+        //     </div>
+        //     <div class="spacer"></div>
+        //     <div class="p rev p-2 p-right" ref={p2Ref}>
+        //         <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
+        //     </div>
+        //     <div class="spacer-min"></div>
+        // </div>
         <div className='flip-section' ref={flipSection}>
-            <section className='flip-section-one'>
+            <section className='flip-section-one' ref={p1Ref}>
 
-                <img src={FootballImage} className='targets' />
+                <img src={FootballImage} className='targets' ref={bgRef} />
                 <h1 className='flip-section-one-heading'>
                     Lorem ipsum dolor sit amet<br /> consectetur<br /> adipisicing elit. Deserunt voluptates
                 </h1>
+
             </section>
             <section className='flip-section-two'>
-                <div className='flip-section-two-box'>
+                <div className='flip-section-two-box' ref={p2Ref}>
 
                 </div>
             </section>
-
-
-            {/* <div className="container"> */}
-            {/* Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fuga cum eum, ipsa aperiam ducimus, cupiditate modi velit temporibus nam ut reiciendis eligendi praesentium perspiciatis suscipit molestias voluptates ea. Nihil, impedit.
-                Velit facilis iste necessitatibus error corporis, nobis laborum numquam. Eaque nihil adipisci dolore voluptatem, voluptas in! Quisquam fugiat totam fuga molestiae. Ipsum, impedit dolor. Tenetur aliquam dolor enim ipsum laboriosam.
-                Perferendis, cum aut. Dolores beatae nulla, veritatis accusamus repellendus quibusdam laborum laboriosam unde? Magnam obcaecati vero excepturi id, ipsam at illo fugit minima consequatur, eveniet illum et. Tempora, quia porro.
-                Illo nihil eaque velit! Mollitia, soluta excepturi accusantium cupiditate incidunt expedita aspernatur, officia ut, sapiente fuga aliquid reiciendis vitae odit! Tempora pariatur blanditiis illo consectetur repellat architecto impedit sint temporibus!
-                Et ipsum harum consectetur maiores. Earum quia molestiae veritatis officia voluptate maxime tenetur non nisi optio sequi, error accusamus! Illo doloribus molestias quos numquam quam in doloremque assumenda ad vero!
-                Cum asperiores atque illo neque architecto aliquam ex corrupti nemo, aspernatur doloremque, accusamus velit quibusdam dolor. Quae alias, est officia veniam similique consequatur magni eligendi voluptatum! Voluptates aspernatur facere officia!
-                Aperiam, voluptatem eius? Veniam in tenetur id. Sed explicabo dolorum repellat corrupti accusamus hic placeat omnis eligendi vitae animi, odit ratione optio nemo voluptatibus numquam iusto, soluta perspiciatis commodi quas.
-                Atque sit praesentium expedita, ad odit delectus qui soluta id quibusdam natus quia eos dolorum quidem, repellendus, deleniti reprehenderit neque hic fugit odio inventore? Omnis, vel! Quisquam odio natus numquam?
-                Voluptatem officiis eum incidunt rerum ullam doloribus, hic quae a reprehenderit veritatis ipsum velit quod sunt maiores repellat dolor fugit iusto quam? Commodi, ipsum rerum. Mollitia illum laborum architecto magnam?
-                Officia rerum nesciunt dicta beatae. Suscipit voluptatibus facere ad voluptate quidem et amet nemo dignissimos, omnis officiis eius, nostrum distinctio cum temporibus debitis voluptatem asperiores. Possimus veniam sapiente pariatur quas!
-                Harum laboriosam magnam modi delectus eligendi illum illo ab veniam numquam, reiciendis voluptate perferendis repudiandae nulla quod facere quibusdam et quaerat ut nostrum fugit ipsa quam commodi? Eum, repudiandae minima.
-                Ea, quas excepturi debitis molestias asperiores aspernatur sequi assumenda libero dolore obcaecati ratione nobis ipsa molestiae ullam expedita corporis labore, alias quisquam ex, qui non. Voluptatibus assumenda quo est accusamus.
-                Saepe magnam voluptates soluta autem perferendis corrupti libero expedita cumque nihil ipsa ex fugit tempora dolor similique natus esse, minus repellendus porro illum at eligendi eaque sunt. Dolorum, omnis ex.
-                Possimus suscipit in laborum perferendis qui asperiores, ducimus quisquam sequi delectus placeat labore! Alias voluptates doloremque itaque. Autem voluptates placeat provident harum reiciendis cum, sunt non quod eaque aspernatur laboriosam.
-                Error hic, nostrum quo possimus asperiores, voluptatibus est nobis culpa maiores facilis, delectus iure repudiandae? Dolores, nostrum quibusdam, molestiae sit quisquam explicabo eius, optio eum aperiam dolore sed qui esse! */}
-            {/* </div> */}
         </div>
     )
 }
