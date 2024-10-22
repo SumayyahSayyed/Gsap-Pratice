@@ -19,7 +19,7 @@ const Scale = () => {
             scrollTrigger: {
                 trigger: ".inner-image-section",
                 start: 'top 60%',
-                markers: true,
+                markers: false,
             },
             delay: 1
         });

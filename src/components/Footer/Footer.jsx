@@ -34,7 +34,7 @@ const Footer = () => {
         ScrollTrigger.create({
             trigger: footerTag,
             start: "top 80%",
-            markers: true,
+            markers: false,
             onEnter: () => {
                 gsap.to('.footer-word', {
                     keyframes: {
