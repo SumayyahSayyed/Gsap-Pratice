@@ -12,6 +12,7 @@ import Footer from './components/Footer/Footer';
 import Loading from './components/Loader/Loading';
 import Showcase from './components/ShowCase/Showcase';
 import FlipAnimation from './components/FlipAnimation/FlipAnimation';
+import Section from './components/Section/Section';
 
 
 
@@ -21,12 +22,11 @@ gsap.registerPlugin(useGSAP);
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
-
+  const [image, setImage] = useState()
 
   const handleLoading = () => {
     setIsLoading(false);
   }
-
 
   useEffect(() => {
     window.addEventListener("load", handleLoading);
@@ -37,7 +37,8 @@ function App() {
     !isLoading ? (<div className="App">
       <Navbar />
       <header className="App-header">
-        <FlipAnimation />
+        <FlipAnimation setImage={setImage} />
+        <Section image={image} />
 
         {/* <Slider />
         <Extra />

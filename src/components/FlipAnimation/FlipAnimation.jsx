@@ -1,15 +1,30 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './FlipAnimation.css';
 
+// else {
+//     const parent = document.querySelector(".flip-section-one");
+
+//     removeChildFromSectionTwo(circ, sqr, parent);
+
+//     Flip.from(initialState, {
+//         duration: 2,
+//         ease: "power1.inOut",
+//     });
+// }
+
 import gsap from 'gsap';
 import { Flip } from 'gsap/all';
 import { useGSAP } from '@gsap/react';
 
 import FootballImage from "../../assets/images/random/football.png";
 
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
+
 gsap.registerPlugin(Flip);
 
-const FlipAnimation = () => {
+const FlipAnimation = ({ setImage }) => {
 
     const flipSection = useRef(null);
     const [animation, setAnimation] = useState(false)
@@ -28,32 +43,25 @@ const FlipAnimation = () => {
         const circ = document.querySelector(".targets");
         const sqr = document.querySelector(".flip-section-two-box");
 
-
-        const initialState = Flip.getState([circ, sqr])
-        console.log("initial state", initialState)
-
-
-        gsap.to('.flip-section-one', {
-            scrollTrigger: {
-                trigger: ".targets",
-                start: 'top 20%',
-                end: 'top 5%',
-                scrub: 2,
-                // pin: true,
-                markers: true,
-                onEnter: () => setAnimation(true),
-                onLeave: () => setAnimation(false)
+        ScrollTrigger.create({
+            trigger: ".targets",
+            start: 'top 20%',
+            end: 'top 5%',
+            scrub: 2,
+            pin: true,
+            markers: true,
+            onEnter: () => setAnimation(true),
+            onLeave: () => {
+                setImage(circ);
             }
         });
-
-
     }, [])
 
     useGSAP(() => {
         const circ = document.querySelector(".targets");
         const sqr = document.querySelector(".flip-section-two-box");
 
-        const initialState = Flip.getState([circ, sqr]);
+        const initialState = Flip.getState(circ);
 
         if (animation) {
             appendChildInSectionTwo(circ, sqr);
@@ -73,16 +81,7 @@ const FlipAnimation = () => {
             });
 
         }
-        else {
-            const parent = document.querySelector(".flip-section-one");
 
-            removeChildFromSectionTwo(circ, sqr, parent);
-
-            Flip.from(initialState, {
-                duration: 2,
-                ease: "power1.inOut",
-            });
-        }
     }, [animation]);
 
     return (
@@ -101,8 +100,8 @@ const FlipAnimation = () => {
             </section>
 
 
-            <div className="container">
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fuga cum eum, ipsa aperiam ducimus, cupiditate modi velit temporibus nam ut reiciendis eligendi praesentium perspiciatis suscipit molestias voluptates ea. Nihil, impedit.
+            {/* <div className="container"> */}
+            {/* Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fuga cum eum, ipsa aperiam ducimus, cupiditate modi velit temporibus nam ut reiciendis eligendi praesentium perspiciatis suscipit molestias voluptates ea. Nihil, impedit.
                 Velit facilis iste necessitatibus error corporis, nobis laborum numquam. Eaque nihil adipisci dolore voluptatem, voluptas in! Quisquam fugiat totam fuga molestiae. Ipsum, impedit dolor. Tenetur aliquam dolor enim ipsum laboriosam.
                 Perferendis, cum aut. Dolores beatae nulla, veritatis accusamus repellendus quibusdam laborum laboriosam unde? Magnam obcaecati vero excepturi id, ipsam at illo fugit minima consequatur, eveniet illum et. Tempora, quia porro.
                 Illo nihil eaque velit! Mollitia, soluta excepturi accusantium cupiditate incidunt expedita aspernatur, officia ut, sapiente fuga aliquid reiciendis vitae odit! Tempora pariatur blanditiis illo consectetur repellat architecto impedit sint temporibus!
@@ -116,8 +115,8 @@ const FlipAnimation = () => {
                 Ea, quas excepturi debitis molestias asperiores aspernatur sequi assumenda libero dolore obcaecati ratione nobis ipsa molestiae ullam expedita corporis labore, alias quisquam ex, qui non. Voluptatibus assumenda quo est accusamus.
                 Saepe magnam voluptates soluta autem perferendis corrupti libero expedita cumque nihil ipsa ex fugit tempora dolor similique natus esse, minus repellendus porro illum at eligendi eaque sunt. Dolorum, omnis ex.
                 Possimus suscipit in laborum perferendis qui asperiores, ducimus quisquam sequi delectus placeat labore! Alias voluptates doloremque itaque. Autem voluptates placeat provident harum reiciendis cum, sunt non quod eaque aspernatur laboriosam.
-                Error hic, nostrum quo possimus asperiores, voluptatibus est nobis culpa maiores facilis, delectus iure repudiandae? Dolores, nostrum quibusdam, molestiae sit quisquam explicabo eius, optio eum aperiam dolore sed qui esse!
-            </div>
+                Error hic, nostrum quo possimus asperiores, voluptatibus est nobis culpa maiores facilis, delectus iure repudiandae? Dolores, nostrum quibusdam, molestiae sit quisquam explicabo eius, optio eum aperiam dolore sed qui esse! */}
+            {/* </div> */}
         </div>
     )
 }
