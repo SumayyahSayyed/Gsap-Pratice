@@ -14,6 +14,7 @@ import Showcase from './components/ShowCase/Showcase';
 import FlipAnimation from './components/FlipAnimation/FlipAnimation';
 import Section from './components/Section/Section';
 import FlipScrollComponent from './components/FlipScroll/FlipScrollComponent';
+import Svg from './components/Svg/Svg';
 
 
 
@@ -42,7 +43,7 @@ function App() {
         <Section image={image} />
 
         {/* <FlipScrollComponent /> */}
-
+        <Svg />
         <Slider />
         <Extra />
         <Scale />

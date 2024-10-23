@@ -14,8 +14,8 @@ gsap.registerPlugin(Flip);
 
 const Section = ({ image }) => {
 
-    useEffect(() => {
-        const element = document.querySelector(".section-for-incoming-element");
+    useGSAP(() => {
+        const element = document.querySelector(".new-section-heading");
 
         if (image) {
             const initialState = Flip.getState(image);
@@ -25,22 +25,27 @@ const Section = ({ image }) => {
             Flip.from(initialState, {
                 duration: 1,
                 ease: "power1.inOut",
-                onStart: () => {
+                onanimationstart: () => {
                     gsap.fromTo(".targets", {
                         rotate: 360,
                     }, {
-                        rotate: 0, duration: 1,
-                        ease: "power1.inOut"
-                    })
+                        rotate: 0,
+                        duration: 2,
+                        scale: 0.2,
+                        ease: "power1.inOut",
+                    });
                 }
             });
         }
     }, [image])
+
+
     return (
         <div className='new-section'>
-            <h2>Section</h2>
-            <div className='section-for-incoming-element'>
-
+            <div className='new-section-heading'>
+                <span className='new-section-heading-text'>
+                    Football
+                </span>
             </div>
         </div>
     )

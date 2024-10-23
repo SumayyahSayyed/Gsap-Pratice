@@ -1,13 +1,35 @@
 .new-section {
     display: flex;
-    min-height: 100vh;
-    padding: 1em 2em;
+    /* min-height: 100vh; */
+    padding: 0em 2em;
 }
 
-h2 {
-    width: 45%;
-    max-width: 45%;
-    margin: 0px;
+
+.new-section-heading {
+    display: flex;
+    align-items: center;
+
+    margin: 0;
+}
+
+.new-section-heading-text {
     font-size: 50px;
     text-align: left;
 }
+
+
+.section-for-incoming-element {
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+}
+
+
+/* .football-image {
+    min-width: 30px !important;
+    min-height: 30px !important;
+
+    max-width: 30px !important;
+    max-height: 30px !important;
+
+} */
